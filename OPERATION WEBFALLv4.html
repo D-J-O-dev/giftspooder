@@ -1,0 +1,317 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>OPERATION WEBFALL</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#04060f;--navy:#0a1330;--red:#e62429;--cyan:#4fd1ff;--tx:#cfe3ff;--glow:#e62429;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body.warm{--bg:#1a0f1f;--navy:#3a1d33;--red:#ffb347;--cyan:#ffd98a;--tx:#fff1dc;--glow:#ffb347}
+*{box-sizing:border-box}html,body{height:100%;margin:0;background:var(--bg);color:var(--tx);font-family:ui-monospace,Menlo,Consolas,monospace;overflow:hidden;transition:background 2s}
+h1,h2,.or,button{font-family:Orbitron,Impact,sans-serif;letter-spacing:.08em}
+body:before{content:"";position:fixed;inset:0;background:repeating-conic-gradient(from 0deg at 50% 110%,#fff1 0 1deg,transparent 1deg 12deg),radial-gradient(circle at 50% 120%,var(--navy),var(--bg) 70%);z-index:0}
+#sky{position:fixed;left:0;right:0;bottom:0;height:34vh;z-index:1;opacity:.55}
+#rain{position:fixed;inset:0;z-index:2;pointer-events:none;background:repeating-linear-gradient(105deg,transparent 0 14px,#7fb2ff22 14px 15px);animation:rain .5s linear infinite}
+body.warm #rain{display:none}
+@keyframes rain{to{background-position:-60px 120px}}
+#scan{position:fixed;inset:0;z-index:50;pointer-events:none;background:repeating-linear-gradient(0deg,#0000 0 2px,#0003 2px 3px)}
+button{background:#0b1736;color:var(--tx);border:1px solid var(--red);padding:.6em 1.1em;cursor:pointer;font-size:.8rem;text-transform:uppercase;transition:.2s}
+button:hover{background:var(--red);color:#fff;box-shadow:0 0 18px var(--glow)}
+button:disabled{opacity:.4;pointer-events:none}
+input,textarea,select{background:#050a1a;color:var(--cyan);border:1px solid #2a4a8a;padding:.7em;font:inherit;font-size:1rem;width:100%;outline:none}
+input:focus,textarea:focus{border-color:var(--cyan);box-shadow:0 0 14px #4fd1ff55}
+#load{position:fixed;inset:0;z-index:60;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;text-align:center}
+#emb{width:150px;opacity:0;animation:fin 3s forwards,pulse 2s 3s infinite;filter:drop-shadow(0 0 14px var(--red))}
+@keyframes fin{to{opacity:1}}@keyframes pulse{50%{filter:drop-shadow(0 0 34px var(--red))}}
+.ring{position:absolute;width:210px;height:210px;border:3px solid #e6242933;border-top-color:var(--red);border-radius:50%;animation:spin 1.2s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+#lt{min-height:1.5em;color:var(--red);letter-spacing:.3em}
+.glitch{animation:gl .5s steps(2) 2}@keyframes gl{0%{transform:translate(4px,0);filter:hue-rotate(90deg)}50%{transform:translate(-6px,2px)}100%{transform:none}}
+#game{position:fixed;inset:0;z-index:5;display:grid;grid-template:auto 1fr auto/230px 1fr;padding:10px;gap:10px;padding-top:calc(10px + env(safe-area-inset-top,0px))}
+#map{grid-row:1/3;background:#06102acc;border:1px solid var(--cyan);padding:6px;align-self:start}
+#map small{display:block;color:var(--cyan);font-size:.65rem;letter-spacing:.2em;margin-bottom:4px}
+#hud{display:flex;gap:12px;align-items:center;justify-content:flex-end;flex-wrap:wrap;font-size:.75rem}
+#hud input{width:80px;padding:0}
+#term{grid-column:2;background:#040a1bdd;border:1px solid #2a4a8a;box-shadow:0 0 30px #4fd1ff22 inset;padding:18px;overflow:auto;min-height:0}
+#call{grid-column:1/3;background:#070d20ee;border:1px solid var(--red);padding:10px 14px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.wave{display:flex;gap:3px;align-items:center;height:30px}.wave i{width:4px;height:6px;background:var(--red)}
+.wave.on i{animation:w .5s ease-in-out infinite alternate}.wave i:nth-child(2n){animation-delay:.15s!important}.wave i:nth-child(3n){animation-delay:.3s!important}
+@keyframes w{to{height:28px}}
+#cap{flex:1;min-width:220px;font-size:1.05rem;min-height:2.6em}
+.who{font-size:.7rem;color:var(--red)}
+.cipher{font-size:1.5rem;color:#fff;background:#0b1736;padding:14px;border-left:4px solid var(--red);margin:12px 0;word-break:break-all;text-shadow:0 0 10px var(--cyan)}
+.log{color:#6fe39a;font-size:.78rem;opacity:.85;min-height:5em}
+.msg{margin-top:10px;min-height:2.6em}.bad{color:#ff6b6b}.ok{color:#6fe39a}
+pre.code,textarea.code{font-size:1rem;line-height:1.6em;margin:10px 0;background:#050a1a;border:1px solid #2a4a8a;padding:.6em;white-space:pre;overflow:auto}
+textarea.code{height:11em;background:linear-gradient(#e6242940,#e6242940) no-repeat 0 .6em/100% 1.6em,#050a1a;background-attachment:local;resize:none;color:#e8f1ff}
+.k{color:#ff79c6}.s{color:#f1fa8c}.f{color:#50fa7b}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.row input{flex:1;min-width:160px}
+.bar{height:10px;background:#0b1736;border:1px solid var(--cyan);margin:10px 0}.bar b{display:block;height:100%;width:0;background:var(--cyan);transition:width 2.4s linear}
+#ov{position:fixed;inset:0;z-index:40;display:none;align-items:center;justify-content:center;flex-direction:column;gap:14px;background:#000d;text-align:center;padding:20px}
+#ov.show{display:flex;animation:fin .4s}
+#ov.vault,#ov.fin{background:radial-gradient(circle,var(--navy),#000 80%);overflow:auto}
+.big{font:800 clamp(1.6rem,6vw,3.6rem) Orbitron,sans-serif;color:var(--red);text-shadow:0 0 25px var(--glow)}
+.doors{display:flex;width:240px;height:110px;gap:4px}.doors i{flex:1;background:#223;border:1px solid var(--red);animation:dr 1.4s .3s forwards}
+.doors i:first-child{transform-origin:left}@keyframes dr{to{transform:scaleX(.05)}}
+.cams{display:flex;gap:16px}.cam{width:26px;height:26px;border-radius:50%;background:red;animation:cg .4s forwards}
+.cam:nth-child(2){animation-delay:.4s}.cam:nth-child(3){animation-delay:.8s}.cam:nth-child(4){animation-delay:1.2s}
+@keyframes cg{to{background:#2f6;box-shadow:0 0 16px #2f6}}
+.vd{width:min(60vw,300px)}.vd .h{transition:transform 1.8s .6s ease-in}.open .hl{transform:translateX(-60%)}.open .hr{transform:translateX(60%)}.open .sp{animation:spin 1s 2}
+.shake{animation:sh .35s}@keyframes sh{25%{transform:translateX(-10px)}75%{transform:translateX(10px)}}
+#toast{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:70;background:#0b1736;border:1px solid var(--cyan);padding:8px 16px;display:none;max-width:90vw}
+.letter{max-width:560px;background:#fff1dc14;border:1px solid var(--red);padding:22px;text-align:left;line-height:1.6;box-shadow:0 0 50px #ffb34755}
+.sw{width:120px;height:60px;border-radius:30px;background:#222;border:2px solid var(--red);font-size:.7rem}
+.flick{animation:fl .15s 6}@keyframes fl{50%{opacity:.1}}
+canvas#cf{position:fixed;inset:0;z-index:45;pointer-events:none}
+@media(max-width:760px){#game{grid-template:auto auto 1fr auto/1fr}#map{grid-row:auto;max-width:200px}#term,#call{grid-column:1}}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01s!important;animation-iteration-count:1!important;transition-duration:.01s!important}#rain{display:none}}
+#pc{font-size:.7rem;color:var(--cyan)}#nx{font-size:.9rem;padding:.7em 1.4em;animation:pulse 1.6s infinite}#cap{min-height:3.2em}
+
+/* --- polish pass --- */
+#web{position:fixed;top:-70px;right:-70px;width:420px;height:420px;z-index:1;opacity:.3;pointer-events:none;background:repeating-conic-gradient(from 180deg at 100% 0,#9cc4ff 0 .5deg,transparent .5deg 10deg),repeating-radial-gradient(circle at 100% 0,transparent 0 30px,#9cc4ff 30px 31px);-webkit-mask:radial-gradient(circle at 100% 0,#000 35%,transparent 72%);mask:radial-gradient(circle at 100% 0,#000 35%,transparent 72%)}
+#flash{position:fixed;inset:0;z-index:3;pointer-events:none;background:#bcd7ff;opacity:0;animation:lt 11s infinite}
+body.warm #flash{display:none}
+@keyframes lt{0%,95%,100%{opacity:0}96%{opacity:.16}97%{opacity:0}98%{opacity:.1}}
+#term:before{content:"● ● ●   SECURE TERMINAL // A.R.C.H.-NET";display:block;color:#4fd1ff99;font-size:.68rem;letter-spacing:.22em;margin:-6px 0 12px;border-bottom:1px solid #2a4a8a;padding-bottom:8px}
+#term h2{text-shadow:0 0 14px var(--glow)}
+#hud{background:#06102a99;border:1px solid #1d3a73;padding:6px 12px;backdrop-filter:blur(4px)}
+#go{animation:pulse 1.6s infinite}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.pl{animation:pl 1.1s infinite}@keyframes pl{50%{stroke-opacity:.2;stroke-width:3}}
+.leg{font-size:.58rem;opacity:.65;line-height:1.5;margin-top:4px}
+#st{font-size:.65rem;float:right}
+.card{position:fixed;inset:0;z-index:55;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;pointer-events:none;background:#000b;animation:cardin 2.3s forwards;text-align:center;padding:20px}
+.card .or{color:var(--cyan);letter-spacing:.4em;font-size:.8rem}.card b{font:800 clamp(1.4rem,5vw,3rem) Orbitron,sans-serif;color:var(--red);text-shadow:0 0 26px var(--glow)}
+@keyframes cardin{0%{opacity:0;transform:scale(1.06)}15%,75%{opacity:1;transform:none}100%{opacity:0}}
+.vd{overflow:visible;filter:drop-shadow(0 0 24px #e6242966)}.vd .sp{transform-box:fill-box;transform-origin:center}
+.open .hl{transform:translateX(-96px)}.open .hr{transform:translateX(96px)}.open .sp,.open .ctr{opacity:0;transition:opacity .5s}
+@media(max-width:760px){#map{max-width:140px}#term{padding:12px}.cipher{font-size:1.1rem}#hud{justify-content:space-between}}
+/* final fixes */
+#ov.fin,#ov.vault{justify-content:flex-start;overflow-x:hidden}
+#ov.fin>:first-child,#ov.vault>:first-child{margin-top:auto}#ov.fin>:last-child,#ov.vault>:last-child{margin-bottom:auto}
+@media(max-width:760px){#game{grid-template:auto 1fr auto/132px 1fr;gap:6px;padding:6px;padding-top:calc(6px + env(safe-area-inset-top,0px))}#map{grid-row:1;grid-column:1;max-width:none;padding:3px}#map small{font-size:.55rem;margin-bottom:1px}.leg{display:none}#hud{grid-row:1;grid-column:2;padding:4px 6px;gap:4px 8px;justify-content:flex-start;align-self:stretch;font-size:.62rem}#hud button{padding:.4em .7em;font-size:.65rem}#hud input{width:70px}#term{grid-row:2;grid-column:1/3}#call{grid-row:3;grid-column:1/3;padding:8px 10px;gap:8px}#cap{min-width:0;font-size:.95rem;min-height:4.2em}}
+</style></head><body>
+<div id="sky"></div><div id="web"></div><div id="flash"></div><div id="rain"></div><div id="scan"></div><div id="toast"></div><canvas id="cf"></canvas>
+
+<div id="load"><div class="ring"></div>
+<svg id="emb" viewBox="0 0 100 100" fill="#e62429"><ellipse cx="50" cy="40" rx="9" ry="13"/><ellipse cx="50" cy="62" rx="12" ry="20"/><g stroke="#e62429" stroke-width="3" fill="none"><path d="M42 36L15 18M42 44L8 44M42 52L12 74M42 36L30 8M58 36L85 18M58 44L92 44M58 52L88 74M58 36L70 8"/></g></svg>
+<div id="lt"></div><button id="go" style="display:none;font-size:1rem;padding:1em 2em">Answer call / Start mission</button><button id="new" style="display:none">Start from the beginning</button></div>
+
+<div id="game" style="display:none">
+<aside id="map"><small>Sli-MAP <b id="st"></b></small><svg id="msvg" viewBox="0 0 200 150" width="100%"></svg><div class="leg">🔒 locked · 🔓 open · 🟡 next stop<br>red dashed zone = security</div></aside>
+<header id="hud"><span class="or" id="prog"></span>
+<label>MUSIC <input id="mv" type="range" min="0" max="1" step=".05" value=".5"></label>
+<button id="mute">Mute</button><button id="rst">3awed</button></header>
+<main id="term"></main>
+<footer id="call"><div class="who or" id="who"></div>
+<div id="cap" aria-live="polite"></div><span id="pc"></span><button id="rp" title="Read this message again">↺</button><button id="nx">Next ▶</button></footer>
+</div>
+<div id="ov"></div>
+
+<script>
+/* ============ CONFIG — edit everything here ============ */
+const CONFIG={
+ recipient:"TONG TONG SHAARA ", caller:"Jasser", from:"a random dude called jasser ig",
+ music:"Loser.mp3", showHints:true,
+ captionSpeed:28, /* typing speed in characters per second — lower = slower (try 20 for very slow, 40 for fast) */
+ captionMaxChars:110, /* max length of one caption part before the Next button */
+ loading:["INITIALIZING...(OSBOR YA BRO)","CONNECTING TO SECURE CHANNEL...(yehh)","INCOMING TRANSMISSION..."],
+ /* Each message: text shown as captions. Edit freely. */
+ intro:{text:"Alooo, ya brooooo!!! tasma3 fiya ? ok asma3ni 3ana mochkla akber min zaget tofe7a Sliman (spider-man tounsi) tab3 wa7din ye5dmou fi SAIDA... ama fama mochkla el tower masker DONCC puisque tt hacker EED EL DONYA, lezmk t3wen SLIMAN bech yestarj3 what ever was stolen, I'll be able to help u a bit... but the master mind is u after all !!!!"},
+ final:{text:"Hmmmm qlq cloche qui chose... This isn't what we thought it was. Hold on. 4aherli el faza hethi lik inti... "},
+ outro:{text:"One more thing. I lwk miss the days we were in the same class.I hope we c each other some day,and  I hope today is as great as you are."},
+ birthdayMessage:["ABDL3ZIZ BOULTIFA MCHE LI 3ERES BINTOU DONC MA JECH. ","BUT u made here huh, impressive, see cybersecurity is for u dude. Well,I wish u a happy birthday. a new year, new oportunities, new friends maybe, or a new you why not . We all heard the saying (Life is short), so u gotta embrace it, yes sometimes life can be harsh, but wat matters is we keep going no matter what no matter the amount of whipping we get. Be happy, live ur life to the max. ANDDD WELL I REALLY HOPE U HAVE THE GREATEST BD EVER, U MEAN SM TO ME FR.. ","C yah."],
+ spiderThanks:"Sli-Man: \"Well guess it's ma9loub time el happy hour fr fr, Well 3aychou Saroura — bye ay \"",
+ levels:[
+ {title:"El mad5el",loc:0,
+  text:"Alright, SLI-Man's at the entrance. Looks like el 5adema encrypted the access code. I think it's hexadecimal. hmmmm a3melou decodage.. U might need to go to google and look for sm.. ",
+  type:"HEXADECIMAL",cipher:"48 52 49 53 53 41 41 5F 4D 49 4E 2D 4A 61 6E 64 6F 75 62 61 31 35",answer:"HRISSAA_MIN-Jandouba15",
+  obj:"Decode the intercepted message to get the entrance password.",
+  explain:"Hexadecimal (Now3 mt3 cryptage) writes each character as a 2-digit code (0-9, A-F). Kol zouz characters represent 1 letter/num min el texte originale. Example: 41 = A, 42 = B.",
+  hints:["4alitna beha el cybersecurity degree btw... rabi yehdik. El texte encrypted b 7aja ismha HEXADECIMAL ok, donc imchi li google w ektb hexadecimal converter, a3ml copier lil text w a3melou coller fil converter.. ok ?","48=H, 52=R, 49=I, 53=S, 53=S, 41=A, 41=A, 5F=_ ... keep going pair by pair (lowercase letters like 61 = a are fine, the game ignores upper/lower case)."],
+  radio:"Sli-Man: \"How el beb t7al — Hani bech nod5ol zamill\""},
+ {title:"SECURITY CAMERAS",loc:1,
+  text:"Okay, Sliman d5al, ama 3ana mochkla s8ayrouna (Not really s8ayrouna). The security cameras fi kol blassa.3ANA ZOUZ 7OULOUL; ye nkalmou el STEG n9ossou 3lihom el thw, wla nhakiw el system. Mais puisque n5alsou fik 500 dnt fil jem3a sans taxe, donc bech thaki (+ Moula el STEG fi LA france...). Their control system is using ROT13. Chouf if you can figure out the password before they spot him.",
+  type:"ROT13",cipher:"QNAQBHAN",answer:"DANDOUNA",
+  obj:"Decode the camera-control password.",
+  explain:"El ROT13 shifts every letter 13 places along the alphabet (A→N, B→O ... N→A). Doing it twice returns the original.",
+  hints:["Shift each letter forward 13: F→S, U→H... The alphabet has 26 letters, so it wraps around.","F→S, U→H, N→A, Q→D, B→O, J→W."],
+  radio:"Sli-Man: \"Jwna bhi? Mrigl zamil. Hani nwasl.\""},
+ {title:"THE ELEVATOR",loc:3,
+  text:"W sadi9. El hero el tounsi wsl lil elevator, ama el destination encrypted. hmm tnajm toukoun binary am not sure tho. Can you decode which floor el sayed needs?",
+  type:"BINARY (8-bit)",cipher:"01000110 01001100 01001111 01001111 01010010 00101101 00111000",answer:"FLOOR-8",
+  obj:"Decode el binary to find el floor.",
+  explain:"Kol group mat3 8 bits  is one character. Bit values: 128 64 32 16 8 4 2 1.",
+  hints:["Add up the place values wherever there's a 1. 01000110 → 64+4+2 = 70, and 70 is the letter F in ASCII.","Imchi li google w ektb binary decoder w a3l copy paste..."],
+  radio:"Sli-Man: \"Going up. Hope 3ndhom GOFRETTE CHOCOTOM (dont mind sliman ken ktebha bil 8alt r9ad matle4a )\""},
+ {title:"THE POWER SYSTEM",loc:4,
+  text:"9robna. El archive lhne, ama et steg fas3t bihom apparrement . L9it an encoded maintenance command bech thaki el steg w traj3 el thw. Decode it, and we should be able to restore the system.",
+  type:"BASE64",cipher:"c3RlZ2xl",answer:"stegle",power:true,
+  obj:"Decode EL command illi 100% hard to decode , then saker w 3awd 7el.",
+  explain:"Base64 turns bytes into letters, numbers, + and /. A trailing '=' is padding. Any Base64 decoder turns it back into text.",
+  hints:["Base64 is very common on the web — paste the string into a Base64 decoder, or use the 'atob' function in a browser console.","It decodes to a word u'd comlete wa9teli y9oss 3lik el thw fi 9ayla min 9weyl ta3 el sif (its 2 words les9in b3a4hom): 5obz w me w ... ."],
+  radio:"Sli-Man: \"Ta7yaa el STEG. Najm nchouf el vault from here.\""},
+ {title:"PYTHON SECURITY OVERRIDE",loc:5,py:true,
+  text:"Okay, this is it. Sli-Man's at the vault. El mochkla innou, we have absolutely no idea what the password is. Ama I think I found another way in. Najmt nala9a copy of the security script. It's encrypted, so you'll have to decode it first. b3ad chouf ken tnajm tbadl faza fil code.",
+  patched:{text:"Wait, damn 5edmet el faza ? Okay, W! El system accepted your changes. Twa try entering el password you just created. Sli-Man yestna."}}
+ ],
+ pyCode:'password = "UNKNOWN"\n\ndef open_vault(key):\n    if key == password:\n        return "ACCESS GRANTED"\n    return "ACCESS DENIED"',
+ sfx:{click:"",ok:"",bad:""}
+};
+/* ============ ENGINE ============ */
+const $=id=>document.getElementById(id),esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const S={lvl:0,pw:null,sub:true,muted:false,mv:.5,vv:1};
+try{S.lvl=Math.min(4,+localStorage.getItem("wf")||0)}catch(e){}
+const save=()=>{try{localStorage.setItem("wf",S.lvl)}catch(e){}};
+const rot13=s=>s.replace(/[a-z]/gi,c=>{const b=c<="Z"?65:97;return String.fromCharCode((c.charCodeAt(0)-b+13)%26+b)});
+const total=CONFIG.levels.length;
+CONFIG.intro.id="intro";CONFIG.final.id="final";CONFIG.outro.id="outro";CONFIG.levels.forEach((l,i)=>l.id="l"+(i+1));CONFIG.levels[4].patched.id="l5b";
+
+/* audio */
+let ctx,music,timers=[];
+function beep(f,d=.12,t="square",v=.06){if(!ctx||S.muted)return;try{const o=ctx.createOscillator(),g=ctx.createGain();o.type=t;o.frequency.value=f;g.gain.value=v*S.vv;o.connect(g);g.connect(ctx.destination);o.start();g.gain.exponentialRampToValueAtTime(.0001,ctx.currentTime+d);o.stop(ctx.currentTime+d)}catch(e){}}
+const sfx={click:()=>beep(700,.05),ok:()=>{beep(520,.12);setTimeout(()=>beep(780,.2),120);setTimeout(()=>beep(1040,.25),260)},bad:()=>{beep(160,.3,"sawtooth")},glitch:()=>beep(90,.25,"sawtooth",.1)};
+function musicVol(v){if(music){music.muted=S.muted;music.volume=S.muted?0:Math.max(0,Math.min(1,v))}}
+function fade(to){clearInterval(fade.i);fade.i=setInterval(()=>{if(!music)return;const d=to-music.volume;if(Math.abs(d)<.02){musicVol(to);clearInterval(fade.i)}else musicVol(music.volume+d*.2)},60)}
+function initAudio(){try{ctx=new (window.AudioContext||window.webkitAudioContext)()}catch(e){}
+ try{music=new Audio(CONFIG.music);music.loop=true;music.volume=0;music.onerror=()=>{music=null};music.play().then(()=>fade(S.mv)).catch(()=>{})}catch(e){}}
+$("mv").oninput=e=>{S.mv=+e.target.value;musicVol(S.mv)};
+$("mute").onclick=()=>{S.muted=!S.muted;$("mute").textContent=S.muted?"Unmute":"Mute";musicVol(S.mv)};
+$("rst").onclick=()=>{if(confirm("T3awed mil lewl ?")){S.lvl=0;S.pw=null;save();location.reload()}};
+
+/* message captions: shown one part at a time, advanced with the NEXT button */
+let lastCall=null,onEnd=null,parts=[],pi=0,typing=null,full="";
+function splitParts(t){const sn=t.match(/[^.!?…]+[.!?…]*["')\]]*\s*/g)||[t],out=[];let cur="";
+ const M=CONFIG.captionMaxChars,add=x=>{if(cur&&(cur+" "+x).length>M){out.push(cur);cur=x}else cur=cur?cur+" "+x:x};
+ sn.forEach(x=>{x=x.trim();if(!x)return;if(x.length<=M)return add(x);let c="";x.split(/\s+/).forEach(w=>{if(c&&(c+" "+w).length>M){add(c);out.push(cur);cur="";c=w}else c=c?c+" "+w:w});if(c)add(c)});if(cur)out.push(cur);return out}
+function showPart(){clearInterval(typing);full=parts[pi];let k=0;const cap=$("cap");cap.textContent="";
+ $("nx").style.display="";$("nx").textContent=pi>=parts.length-1?(onEnd?"Continue ▶":"Got it ▶"):"Next ▶";$("pc").textContent=parts.length>1?(pi+1)+"/"+parts.length:"";
+ typing=setInterval(()=>{k++;if(k%4==0)beep(1100,.015,"square",.012);cap.textContent=full.slice(0,k);if(k>=full.length)clearInterval(typing)},1000/(CONFIG.captionSpeed||28))}
+function speak(call,cb,who){lastCall=call;onEnd=cb||null;parts=splitParts(call.text);pi=0;$("who").textContent="● "+(who||CONFIG.caller);showPart()}
+function nextPart(){if(!parts.length)return;const cap=$("cap");
+ if(cap.textContent.length<full.length){clearInterval(typing);cap.textContent=full;return}
+ if(pi<parts.length-1){pi++;showPart();return}
+ clearInterval(typing);$("nx").style.display="none";const f=onEnd;onEnd=null;if(f)f()}
+$("nx").onclick=()=>{sfx.click();nextPart()};
+$("rp").onclick=()=>{if(lastCall&&!onEnd){pi=0;showPart()}};
+document.addEventListener("keydown",e=>{if(e.key==="ArrowRight"&&!/INPUT|TEXTAREA/.test(document.activeElement.tagName)&&$("nx").style.display!=="none")nextPart()});
+
+/* toast + map */
+function toast(t){const e=$("toast");e.textContent=t;e.style.display="block";clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.display="none",3800)}
+const NODES=[["ROOFTOPS",25,18],["ENTRANCE",25,58],["SECURITY HUB",95,58],["ELEVATOR",95,100],["ARCHIVE F8",155,100],["VAULT",165,34]];
+let mapLoc=0;
+function drawMap(loc,animate){mapLoc=loc;let h='<rect x="3" y="3" width="194" height="144" fill="none" stroke="#2a4a8a"/><rect x="12" y="44" width="110" height="28" fill="#e6242922" stroke="#e62429" stroke-dasharray="3"><title>Security zone</title></rect>';
+ for(let i=0;i<5;i++){const a=NODES[i],b=NODES[i+1],d=i<loc;h+=`<line x1="${a[1]}" y1="${a[2]}" x2="${b[1]}" y2="${b[2]}" stroke="${d?"#6fe39a":"#2a4a8a"}" stroke-width="${d?3:2}" stroke-dasharray="${d?"0":"4"}"/>`}
+ NODES.forEach((n,i)=>{const open=i<=loc,next=i===loc+1;h+=`<circle cx="${n[1]}" cy="${n[2]}" r="5" fill="${open?"#6fe39a":next?"#ffcc33":"#0b1736"}" stroke="${next?"#ffcc33":"#4fd1ff"}"${next?' class="pl"':''}/><text x="${n[1]+(n[1]>140?-8:8)}" y="${n[2]+(i==5?-8:3)}" font-size="7" fill="#9cc4ff" text-anchor="${n[1]>140?"end":"start"}">${i>0?(open?"🔓 ":"🔒 "):""}${n[0]}</text>`});
+ h+=`<g id="sp" style="transition:transform 1.6s ease-in-out;transform:translate(${NODES[loc][1]}px,${NODES[loc][2]}px)"><circle r="7" fill="#e62429" opacity=".35"/><text y="4" font-size="11" text-anchor="middle">🕷</text></g>`;
+ $("msvg").innerHTML=h;$("st").textContent="● "+["ALERT","ALERT","CAUTION","CAUTION","LOW POWER","VAULT"][loc];$("st").style.color=loc<2?"#ff6b6b":loc<4?"#ffcc33":"#6fe39a";
+ if(animate!==undefined){const sp=$("sp");sp.style.transition="none";const f=NODES[animate];sp.style.transform=`translate(${f[1]}px,${f[2]}px)`;sp.getBoundingClientRect();sp.style.transition="";sp.style.transform=`translate(${NODES[loc][1]}px,${NODES[loc][2]}px)`}}
+function setProg(){$("prog").textContent=`MISSION ${Math.min(S.lvl+1,total)}/${total}`}
+
+/* terminal log */
+async function bootLog(el,lines){for(const l of lines){el.innerHTML+=esc(l)+"<br>";await sleep(220)}}
+const LOGS=[["> LINK ESTABLISHED","> WARNING: INTRUDER DETECTED IN PERIMETER","> DOOR LOCK: ENGAGED"],["> CAMERA GRID ONLINE (4/4)","> WARNING: TARGET TRACKING ACTIVE","> LOCK: PASSWORD REQUIRED"],["> ELEVATOR CTRL: LOCKED","> DESTINATION REGISTER: ENCRYPTED","> AWAITING INPUT"],["> ARCHIVE POWER: 0%","> WARNING: BACKUP RELAY OFFLINE","> MAINTENANCE CMD: ENCODED"],["> VAULT CONTROLLER: PASSWORD UNKNOWN","> SECURITY SCRIPT: ENCRYPTED","> AWAITING OVERRIDE"]];
+
+/* generic puzzles (levels 1-4) */
+function startLevel(i,first){S.lvl=i;save();setProg();const L=CONFIG.levels[i];
+ {const c=document.createElement("div");c.className="card";c.innerHTML=`<span class="or">MISSION ${i+1} / ${total}</span><b>${esc(L.title)}</b>`;document.body.appendChild(c);setTimeout(()=>c.remove(),2300);beep(330,.15,"sawtooth",.05)}
+ drawMap(L.loc,i?CONFIG.levels[i-1].loc:undefined);
+ const play=()=>speak(L,null);$("cap").textContent="";$("pc").textContent="";$("nx").style.display="none";
+ setTimeout(()=>{if(first&&i===0)speak(CONFIG.intro,play);else play()},1900);
+ if(L.py)return pyLevel(L);
+ const T=$("term");
+ T.innerHTML=`<h2 style="color:var(--red);margin:0">LEVEL ${i+1} — ${L.title}</h2><div class="log" id="lg"></div>
+ <p><b>OBJECTIVE:</b> ${esc(L.obj)}</p><div class="or" style="font-size:.7rem;color:var(--cyan)">INTERCEPTED TRANSMISSION · ENCODING: ${L.type}</div><div class="cipher">${esc(L.cipher)}</div>
+ <p style="opacity:.85">${esc(L.explain)}</p><div class="row"><input id="ans" placeholder="Type the decoded password..." autocomplete="off" autofocus><button id="sub">Submit</button>${CONFIG.showHints?'<button id="hint">Hint</button>':""}</div><div class="msg" id="m"></div><div id="pw"></div>`;
+ bootLog($("lg"),LOGS[i]);let hn=0;setTimeout(()=>{const a=$("ans");if(a&&!matchMedia("(pointer:coarse)").matches)a.focus()},400);
+ const check=()=>{const v=$("ans").value.trim();sfx.click();
+  if(v.toUpperCase()===L.answer.toUpperCase()){$("ans").disabled=true;$("sub").disabled=true;sfx.ok();$("m").innerHTML='<span class="ok">ACCESS GRANTED</span>';return L.power?power(L,i):solved(i)}
+  sfx.bad();$("m").innerHTML='<span class="bad">'+esc(feedback(L,v))+'</span>'};
+ $("sub").onclick=check;$("ans").onkeydown=e=>{if(e.key==="Enter")check()};
+ if($("hint"))$("hint").onclick=()=>{$("m").innerHTML='💡 '+esc(L.hints[Math.min(hn++,L.hints.length-1)])+(hn<L.hints.length?" (press Hint again for a bigger clue)":"")}}
+function feedback(L,v){if(!v)return"Type your decoded answer first. Use the explanation above if you're stuck.";
+ if(v.replace(/\s/g,"")===L.cipher.replace(/\s/g,""))return"That's still the encrypted text. Decode it into plain letters first.";
+ if(v.length!==L.answer.length)return`Not quite. The decoded password has ${L.answer.length} characters; yours has ${v.length}. Check you decoded every part.`;
+ let ok=0;[...v.toUpperCase()].forEach((c,k)=>{if(c===L.answer.toUpperCase()[k])ok++});return`Close — ${ok} of ${L.answer.length} characters are in the right place. Re-check the others.`}
+async function solved(i){const L=CONFIG.levels[i];toast(L.radio);await sleep(900);
+ const html=[`<div class="big">ACCESS GRANTED</div><div class="doors"><i></i><i></i></div><div>MAIN DOORS UNLOCKED</div>`,
+ `<div class="big">CAMERAS DISABLED</div><div class="cams"><span class="cam"></span><span class="cam"></span><span class="cam"></span><span class="cam"></span></div>`,
+ `<div class="big">ELEVATOR ONLINE</div><div class="or" style="font-size:3rem" id="fl">FLOOR 1</div><div>ASCENDING...</div>`,
+ `<div class="big">POWER RESTORED</div>`][i];
+ const o=$("ov");o.className="show";o.innerHTML=html;
+ if(i===2)for(let f=1;f<=8;f++){$("fl").textContent="FLOOR "+f;beep(300+f*60,.1);await sleep(330)}
+ await sleep(2200);o.className="";o.innerHTML="";startLevel(i+1)}
+function power(L,i){$("pw").innerHTML=`<p class="ok">Command accepted: <b>${L.answer}</b>. Backup relay found. Activate it to restore power:</p><button class="sw" id="sw">⏻ OFF</button>`;
+ $("sw").onclick=async()=>{$("sw").textContent="⏻ ON";$("sw").style.background="var(--red)";sfx.glitch();$("term").classList.add("flick");await sleep(1000);$("term").classList.remove("flick");solved(i)}}
+
+/* LEVEL 5 — four stages */
+const hl=c=>esc(c).replace(/\b(def|if|return)\b/g,'<span class="k">$1</span>').replace(/(&quot;.*?&quot;)/g,'<span class="s">$1</span>').replace(/(open_vault)/g,'<span class="f">$1</span>');
+function pyLevel(L){const T=$("term"),enc=rot13(CONFIG.pyCode);
+ T.innerHTML=`<h2 style="color:var(--red);margin:0">LEVEL 5 — ${L.title}</h2><div class="log" id="lg"></div><p><b>STAGE 1/4 — DECRYPT.</b> The vault's security script is encrypted. Identify the cipher, then decode it.</p><pre class="code" id="enc">${esc(enc)}</pre>
+ <div class="row" id="opts">${["HEXADECIMAL","ROT13","BASE64","BINARY"].map(c=>`<button data-c="${c}">${c}</button>`).join("")}${CONFIG.showHints?'<button id="hint">Hint</button>':""}</div><div class="msg" id="m"></div>`;
+ bootLog($("lg"),LOGS[4]);
+ if($("hint"))$("hint").onclick=()=>$("m").textContent="💡 ROT13 shifts each letter 13 places (A↔N). Notice the code words look like gibberish but keep their shape: 'qrs' is 'def'. Python keywords appear once decoded.";
+ $("opts").onclick=async e=>{const c=e.target.dataset.c;if(!c)return;sfx.click();
+  if(c!=="ROT13"){sfx.bad();$("m").innerHTML='<span class="bad">'+({HEXADECIMAL:"Hex only uses 0-9 and A-F, and this text has normal letters beyond F.",BASE64:"Base64 looks like one dense blob without spaces or punctuation like this.",BINARY:"Binary is only 0s and 1s."}[c])+" Try another cipher.</span>";return}
+  sfx.ok();$("opts").innerHTML="";$("m").innerHTML='<span class="ok">ROT13 confirmed. Decrypting...</span>';
+  for(let k=0;k<=enc.length;k+=4){$("enc").textContent=CONFIG.pyCode.slice(0,k)+enc.slice(k);await sleep(30)}
+  $("enc").innerHTML=hl(CONFIG.pyCode);await sleep(900);stage2()}}
+function stage2(){const T=$("term");
+ T.innerHTML=`<h2 style="color:var(--red);margin:0">LEVEL 5 — PYTHON SECURITY OVERRIDE</h2><p><b>STAGE 2/4 — CHANGE THE PASSWORD.</b><br>The vault's current password is unknown. But we have access to its security script. Change the password to anything you want.</p>
+ <p style="color:var(--cyan)">Edit the highlighted line. Replace <code>"UNKNOWN"</code> with your own password. Text in Python must stay inside quotation marks, like <code>password = "SPIDERGIRL"</code>. Letters, numbers and symbols are all fine. <b>Remember it — you'll need it!</b></p>
+ <textarea class="code" id="ed" spellcheck="false" autocapitalize="off" autocorrect="off" autocomplete="off">${esc(CONFIG.pyCode)}</textarea>
+ <div class="row"><button id="up" style="font-size:1rem">Upload security patch</button>${CONFIG.showHints?'<button id="hint">Hint</button>':""}</div><div class="bar"><b id="pb"></b></div><div class="msg" id="m"></div>`;
+ if($("hint"))$("hint").onclick=()=>$("m").textContent='💡 Click the highlighted line and change only the word between the quotes. = assigns a value; == compares two values (leave that part alone).';
+ $("up").onclick=async()=>{sfx.click();const r=checkPatch($("ed").value);if(!r.pw){sfx.bad();$("m").innerHTML='<span class="bad">'+esc(r.m)+'</span>';return}
+  $("up").disabled=true;$("ed").disabled=true;$("m").textContent="UPLOADING SECURITY PATCH...";$("pb").style.width="100%";await sleep(2600);
+  S.pw=r.pw;sfx.ok();$("m").innerHTML='<div class="big" style="font-size:1.4rem">SECURITY SYSTEM UPDATED</div><div class="ok" style="margin-top:8px">NEW ACCESS CREDENTIALS ACTIVE</div>';
+  speak(CONFIG.levels[4].patched,vault)}}
+function checkPatch(src){const L=src.replace(/[“”„‟]/g,'"').replace(/[‘’‚‛]/g,"'").replace(/\r/g,"").split("\n"),i=L.findIndex(l=>/^\s*password\b/.test(l));
+ if(i<0)return{m:"I can't find the line that starts with  password =  . Don't delete it — change only the text inside the quotes."};
+ const line=L[i].trim(),m=line.match(/^password\s*=\s*(?:"([^"]*)"|'([^']*)')$/);
+ if(!m){if(/^password\s*=\s*$/.test(line))return{m:"SyntaxError: nothing is assigned. Write a password in quotes, e.g. password = \"SPIDERGIRL\"."};
+  if(/^password\s*=\s*[^"']/.test(line))return{m:"SyntaxError: a password is text, so it must be inside quotation marks. Try: password = \""+line.replace(/^password\s*=\s*/,"").replace(/["']/g,"")+"\""};
+  return{m:"SyntaxError: unterminated string. Make sure the password has an opening AND closing quotation mark."}}
+ if(/^\s/.test(L[i]))return{m:"IndentationError: the password line must start at the very left edge."};
+ const pw=m[1]!==undefined?m[1]:m[2];
+ if(!pw.trim())return{m:"The password can't be empty. Type something between the quotes."};
+ if(pw==="UNKNOWN")return{m:"That's still the old password. Replace UNKNOWN with something of your own."};
+ if(pw.length>40)return{m:"That password is too long for the vault keypad (40 characters max)."};
+ const rest=L.filter((_,k)=>k!==i).join("\n");
+ if(!/def open_vault\(key\):/.test(rest)||!/^\s+if key == password:\s*$/m.test(rest)||!/return "ACCESS GRANTED"/.test(rest)||!/return "ACCESS DENIED"/.test(rest))
+  return{m:"Warning: the rest of the script was altered. The check  if key == password:  must stay exactly as it was. Only the password line should change."};
+ return{pw}}
+
+/* stage 4 — vault door */
+function vault(){const o=$("ov");o.className="show vault";
+ o.innerHTML=`<div class="big">VAULT ACCESS REQUIRED</div><svg class="vd" id="vd" viewBox="0 0 200 200"><defs><radialGradient id="vg"><stop offset="0" stop-color="#ffe9a8"/><stop offset="1" stop-color="#ff9d2e" stop-opacity=".15"/></radialGradient></defs><circle cx="100" cy="100" r="95" fill="url(#vg)"/><g class="h hl"><path d="M100 5A95 95 0 0 0 100 195Z" fill="#0b1736" stroke="#e62429" stroke-width="4"/></g><g class="h hr"><path d="M100 5A95 95 0 0 1 100 195Z" fill="#0b1736" stroke="#e62429" stroke-width="4"/></g><g class="sp"><circle cx="100" cy="100" r="60" fill="none" stroke="#4fd1ff" stroke-width="3" stroke-dasharray="8 6"/><path d="M100 40V160M40 100H160M58 58L142 142M142 58L58 142" stroke="#4fd1ff" stroke-width="3"/></g><circle class="ctr" cx="100" cy="100" r="16" fill="#e62429"/></svg>
+ <div class="row" style="width:min(420px,90vw)"><input id="vp" type="password" placeholder="Enter the password you created..." autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"><button id="eye">👁</button><button id="vgo">Unlock</button></div><div class="msg or" id="vm"></div>`;
+ drawMap(5,4);$("vp").focus();
+ $("eye").onclick=()=>$("vp").type=$("vp").type==="password"?"text":"password";
+ const go=async()=>{sfx.click();if($("vp").value.replace(/[“”„‟]/g,'"').replace(/[‘’‚‛]/g,"'")===S.pw){$("vm").innerHTML='<span class="ok">IDENTITY VERIFIED</span>';sfx.ok();$("vp").disabled=true;
+   $("vd").classList.add("open");[200,500,900,1300].forEach(t=>setTimeout(()=>sfx.glitch(),t));await sleep(3200);S.lvl=0;save();finale()}
+  else{sfx.bad();$("vm").innerHTML='<span class="bad">ACCESS DENIED — CREDENTIALS DO NOT MATCH</span>';$("vp").classList.add("shake");setTimeout(()=>$("vp").classList.remove("shake"),400);
+   $("vm").innerHTML+='<div style="font-size:.75rem;color:var(--tx)">Passwords are case-sensitive. Use the exact text you typed between the quotes.</div>'}};
+ $("vgo").onclick=go;$("vp").onkeydown=e=>{if(e.key==="Enter")go()}}
+
+/* FINAL REVEAL */
+async function finale(){const o=$("ov");o.className="show fin";o.innerHTML='<div class="big" id="fx"></div>';$("game").style.display="none";
+ const say=async t=>{$("fx").textContent=t;$("fx").style.animation="none";$("fx").offsetWidth;$("fx").style.animation="";beep(440,.1);await sleep(1900)};
+ await sleep(800);for(const t of["OBJECT RECOVERED.","ANALYZING CONTENTS...","THREAT LEVEL: NONE.","OBJECT CLASSIFICATION: PRICELESS."])await say(t);
+ $("game").style.display="";$("game").style.visibility="hidden";
+ o.innerHTML='<div class="or" style="font-size:1.2rem;color:var(--cyan)">A DIGITAL LETTER HAS BEEN FOUND...</div><div id="fcap" style="max-width:520px;min-height:4em"></div>';
+ {$("fcap").textContent=CONFIG.final.text;const b=document.createElement("button");b.textContent="Continue ▶";b.style.marginTop="12px";$("fcap").after(b);await new Promise(r=>b.onclick=r);b.remove()}await sleep(300);
+ document.body.classList.add("warm");sfx.ok();
+ o.innerHTML=`<div class="big" style="color:var(--red)">HAPPY BIRTHDAY, ${esc(CONFIG.recipient.trim().toUpperCase())}!</div>
+ <div class="letter">${CONFIG.birthdayMessage.map(p=>`<p>${esc(p)}</p>`).join("")}<p style="text-align:right">— ${esc(CONFIG.from)}</p></div>
+ <p style="max-width:520px;color:var(--cyan)">${esc(CONFIG.spiderThanks)}</p><div class="row" style="justify-content:center"><button id="vo">Read final message</button><button id="rpy">Replay adventure</button></div><div id="fcap2" style="max-width:520px"></div>`;
+ confetti();$("vo").onclick=()=>{$("fcap2").textContent=CONFIG.outro.text;$("vo").disabled=true};
+ $("rpy").onclick=()=>{S.lvl=0;S.pw=null;save();location.reload()}}
+function confetti(){const c=$("cf"),x=c.getContext("2d");c.width=innerWidth;c.height=innerHeight;const P=Array.from({length:110},()=>({x:Math.random()*c.width,y:-Math.random()*c.height,v:1+Math.random()*2.5,r:2+Math.random()*4,h:Math.random()*60+20}));let t=0;
+ (function f(){x.clearRect(0,0,c.width,c.height);P.forEach(p=>{p.y+=p.v;p.x+=Math.sin(p.y/30);if(p.y>c.height)p.y=-10;x.fillStyle=`hsl(${p.h},95%,65%)`;x.fillRect(p.x,p.y,p.r,p.r*1.6)});if(t++<1500&&!matchMedia("(prefers-reduced-motion:reduce)").matches)requestAnimationFrame(f)})()}
+
+/* skyline + boot */
+(function(){let h='<svg viewBox="0 0 1000 200" preserveAspectRatio="none" width="100%" height="100%">',x=0,r=7;while(x<1000){r=(r*9301+49297)%233280;const w=30+r%50,ht=40+r%150;h+=`<rect x="${x}" y="${200-ht}" width="${w}" height="${ht}" fill="#070d22" stroke="#1a2a5a"/>`;for(let k=0;k<ht/16;k++)if((r+k)%3==0)h+=`<rect x="${x+5+(k*7%w)}" y="${200-ht+6+k*14}" width="4" height="5" fill="#ffd98a" opacity=".5"/>`;x+=w+4}$("sky").innerHTML=h+"</svg>"})();
+(async function(){const t=$("lt");await sleep(3200);for(const l of CONFIG.loading){t.textContent=l;await sleep(1500)}
+ $("load").classList.add("glitch");$("go").style.display="";const begin=()=>{initAudio();sfx.click();$("load").style.display="none";$("game").style.display="";startLevel(S.lvl,true)};$("go").onclick=begin;
+ if(S.lvl>0){$("go").textContent="Continue — mission "+(S.lvl+1);const n=$("new");n.style.display="";n.onclick=()=>{S.lvl=0;save();begin()}}})();
+</script></body></html>
